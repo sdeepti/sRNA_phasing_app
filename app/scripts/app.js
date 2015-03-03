@@ -1,58 +1,45 @@
 (function(window, $, undefined) {
   'use strict';
 
-  console.log('Hello, table_app_1!');
+  console.log('This is the Araport science app for Arabidopsis thaliana small RNA data.');
 
+  /* data-app-name is an attribute of a div in app.html */
+  /* app.html is included by a div in index.html */
   var appContext = $('[data-app-name="table-app-1"]');
 
-  /* Generate Agave API docs */
+  /* Create an anonymous function and register it to fire when AgaveAPI is ready. */
+  /* Our science app functionality belongs inside this function. */
   window.addEventListener('Agave::ready', function() {
-    var Agave, help, helpItem, helpDetail, methods, methodDetail;
+      var Agave, interactive, info;
+      var htmlString;
 
-    Agave = window.Agave;
+      /* This object has useful functions for interacting with Araport server components. */
+      Agave = window.Agave;
 
-    appContext.html('<h2>Hello AIP Science App &plus; Agave API!</h2><div class="api-help list-group"></div><hr><div class="api-info"></div><br>');
+      /* Use the jQuery .html() setter/getter function to CHANGE content. */
+      /* Alter the HTML title to show we are running. */
+      /* Add a div to hold the interactive application content. */
+      /* Add a div to hold the provenance information. */
+      /* Each div could have a unique id. */
+      /* Each div could have one or more classes for sytling. */
+      htmlString='<h2><em>Arabidopsis thaliana</em> small RNA</h2>'+
+	  '<div class="interactive"></div>'+
+	  '<hr><div class="provenance-info"></div><br>';
+      appContext.html(htmlString);
+      
+      /* Search the appContenxt div for elements with attribute interactive. */
+      /* Note we added this element in a previous line. */
+      interactive = $('.interactive', appContext);
+      interactive.append('<p>This is your interactive app!</p>');
 
-    help = $('.api-help', appContext);
-
-    $.each(Agave.api.apisArray, function(i, api) {
-      helpItem = $('<a class="list-group-item">');
-      help.append(helpItem);
-
-      helpItem.append($('<h4>').text(api.name).append('<i class="pull-right fa fa-toggle-up"></i>'));
-      helpDetail = $('<div class="api-help-detail">');
-      helpDetail.append($('<p>').text(api.description));
-      helpDetail.append('<h5>Methods</h5>');
-      methods = $('<ul>');
-      $.each(api.help(), function(i, m) {
-        methodDetail = $('<li>');
-        methodDetail.append('<strong>' + m + '</strong>');
-        var details = api[m.trim()].help();
-        if (details) {
-          methodDetail.append('<br>').append('Parameters');
-          methodDetail.append('<p style="white-space:pre-line;">' + details + '</p>');
-        }
-        methods.append(methodDetail);
-      });
-      helpDetail.append(methods);
-      helpItem.append(helpDetail.hide());
-    });
-
-    $('.api-help > a', appContext).on('click', function() {
-      if (! $(this).hasClass('list-group-item-info')) {
-        // close other
-        $('.api-help > a.list-group-item-info', appContext).removeClass('list-group-item-info').find('.fa').toggleClass('fa-toggle-up fa-toggle-down').end().find('.api-help-detail').slideToggle();
-      }
-
-      $(this).toggleClass('list-group-item-info');
-      $('.fa', this).toggleClass('fa-toggle-up fa-toggle-down');
-      $('.api-help-detail', this).slideToggle();
-    });
-
-    var info = $('.api-info', appContext);
-    info.addClass('text-center');
-    info.append('<p>' + Agave.api.info.title + ': ' + Agave.api.info.description + '</p>');
-    info.append('<p><a href="mailto:' + Agave.api.info.contact + '">Contact</a> | <a href="' + Agave.api.info.license + '">License</a> | <a href="' + Agave.api.info.license + '">Terms of use</a></p>');
+      /* Search the appContenxt div for elements with attribute provenance-info. */
+      /* Adjust the provenance info at the bottom of the screen */
+      info = $('.provenance-info', appContext);
+      /* The bootstrap.css (in use at Araport) recognizses class "text-center" and centers it. */
+      info.addClass('text-center');
+      /* For now, hard code some provenance info. */
+      /* Later, get provenance from a Meyers Lab web service. */
+      info.append('<p>Visit <a href="http://www.meyerslab.org/data/">Meyers Lab Data</a> for more information!</p>');
   });
 
 })(window, jQuery);
