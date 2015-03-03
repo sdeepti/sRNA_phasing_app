@@ -1,5 +1,7 @@
 {
   "name": "table-app-1",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "underscore": "~1.8.2"
+  }
 }
