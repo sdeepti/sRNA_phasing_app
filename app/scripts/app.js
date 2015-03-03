@@ -1,9 +1,17 @@
 // This is a compiler directive that defines the underscore passed to the outer function. 
 /* global _ */
 
+/**
+ * This is our outermost function.
+ * @param {window} the DOM (document object model) of the HTML page.
+ * @param {$} JavaScript 'this'. Standard JavaScript.
+ * @param {_} Underscore 'this'. Specific to the underscore.js library.
+ * @param {undefined} This really is undefined.
+ * Nothing will get passed to the {undefined} paramter so it really is undefined.
+ * Use it in comparisons to other variables to test if they are undefined.
+ **/
 (function(window, $, _, undefined) {
     'use strict';
-
     console.log('This is the Araport science app for Arabidopsis thaliana small RNA data.');
 
     /** 
@@ -12,14 +20,25 @@
      */
     var appContext = $('[data-app-name="table-app-1"]');
 
+    /**
+     * The underscaore.js library supports templates for display tables.
+     * Here we define the template object to include table layout.
+     *
+     * Question: We are using <pre> for DNA sequence. Is there a better CSS class?
+     **/
     var templates = {
         resultTable: _.template('<table class="table table-striped table-bordered">'+
 				'<caption>Results for Arabidopsis thaliana small RNA</caption>'+
-				'<thead><tr><th>Sequence</th></thead>'+
-				'<tbody>'+
+				'<thead><tr>'+
+				'<th>Sequence</th>'+
+				'<th>Position</th>'+
+				'<th>Hits</th>'+
+				'</tr></thead><tbody>'+
 				'<% _.each(result, function(r) { %>'+
 				'<tr>'+
 				'<td><pre><%= r.sequence %></pre></td>'+
+				'<td>chr <%= r.chromosome %> <%= r.strand %> <%= r.position %></td>'+
+				'<td><pre><%= r.hits %></pre></td>'+
 				'</tr>'+
 				'<% }) %>'+
 				'</tbody>'+
@@ -41,10 +60,9 @@
 	}
 	console.log('Writing search result object to screen.');   
 	console.log(json);
-	console.log(json.obj.result[0].sequence);
-	console.log(templates.resultTable(json.obj));
+	// console.log(json.obj.result[0].sequence);
+	// console.log(templates.resultTable(json.obj));
 	$('.main_results').empty();           
-	//$('.main_results', appContext).html('<h1>RESULTS!</h1>');
 	$('.main_results', appContext).html(templates.resultTable(json.obj));
 	//$('.main_results table', appContext).dataTable( {'lengthMenu': [5, 10, 25, 50, 100]} );
 	return (true);
