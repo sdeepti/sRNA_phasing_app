@@ -1,13 +1,31 @@
-(function(window, $, undefined) {
-  'use strict';
+// This is a compiler directive that defines the underscore passed to the outer function. 
+/* global _ */
 
-  console.log('This is the Araport science app for Arabidopsis thaliana small RNA data.');
+(function(window, $, _, undefined) {
+    'use strict';
 
-  /** 
-   * data-app-name is an attribute of a div in app.html 
-   * app.html is included by a div in index.html 
-   */
-  var appContext = $('[data-app-name="table-app-1"]');
+    console.log('This is the Araport science app for Arabidopsis thaliana small RNA data.');
+
+    /** 
+     * data-app-name is an attribute of a div in app.html 
+     * app.html is included by a div in index.html 
+     */
+    var appContext = $('[data-app-name="table-app-1"]');
+
+    var templates = {
+        resultTable: _.template('<table class="table table-striped table-bordered">'+
+				'<caption>Results for Arabidopsis thaliana small RNA</caption>'+
+				'<thead><tr><th>Sequence</th></thead>'+
+				'<tbody>'+
+				'<% _.each(result, function(r) { %>'+
+				'<tr>'+
+				'<td><%= r.sequence %></td>'+
+				'</tr>'+
+				'<% }) %>'+
+				'</tbody>'+
+				'</table>'),
+    };
+    console.log(templates);
 
     var showSearchError = function(json) {
 	// Later, display an error to the user. For now, display an error on the developer console.
@@ -21,8 +39,13 @@
 	    console.log('Search result status is NOT good!');
 	    return (false);
 	}
-	console.log('Here is the search result object!');              
+	console.log('Writing search result object to screen.');   
 	console.log(json);
+	console.log(json.obj.result[0].sequence);
+	$('.main_results').empty();           
+	$('.main_results', appContext).html(templates.resultTable(json.obj));
+	//$('.main_results table', appContext).dataTable( {'lengthMenu': [5, 10, 25, 50, 100]} );
+	return (true);
     };
     
     /**
@@ -97,4 +120,4 @@
       );
   });
         
-})(window, jQuery);
+})(window, jQuery, _);
