@@ -2,3 +2,8 @@
 node_modules
 dist
 bower_components
+.DS_Store
+app.js~
+app.html~
+index.html~
+.gitignore~
