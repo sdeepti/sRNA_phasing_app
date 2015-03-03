@@ -17,22 +17,6 @@
       var Agave, interactive, info;
       var htmlString;
 
-      /* This object has useful functions for interacting with Araport server components. */
-      Agave = window.Agave;
-      /** 
-       * This is redundant because this function was called on Agave ready! 
-       * However this is demonstrative of an Agave call. 
-       * The getStatus() call takes three parameters: args, callback, error. 
-       * We pass an empty opbject, an anonymous function, and omit error. 
-       */
-      Agave.api.adama.getStatus({}, function(resp) {
-	  if (resp.obj.status === 'success') {
-	      console.log('Agave status is good!');
-	  } else {
-	      console.log('Agave status is NOT good!');
-	  }
-      }); // end of getStatus 
-
       /**
        * Use the jQuery .html() setter/getter function to CHANGE content. 
        * Alter the HTML title to show we are running. 
@@ -66,19 +50,41 @@
        */
       info.append('<p>Visit <a href="http://www.meyerslab.org/data/">Meyers Lab Data</a> for more information!</p>');
 
+      /** 
+       * This is redundant because this function was called on Agave ready! 
+       * However this is demonstrative of an Agave call. 
+       * The getStatus() call takes three parameters: args, callback, error. 
+       * We pass an empty opbject, an anonymous function, and omit error. 
+       */
+      Agave = window.Agave;
+      Agave.api.adama.getStatus({}, function(resp) {
+	  if (resp.obj.status === 'success') {
+	      console.log('Agave status is good!');
+	  } else {  
+	      console.log('Agave status is NOT good!');
+	      return (false);
+	  }
+      }); // end of getStatus 
+      
       /**
        * Execute a search.
+       * Adama search parameters are: namespace, service, args, callback.
+       * We provide an anonymous function as the callback.
        */
       Agave.api.adama.search(
           {'namespace': 'at_srna', 
 	   'service': 'at_srna_v0.1', 
 	   'queryParams': {'chr': 1, 'beg': 9000, 'end': 9400}},
           function(search) {
-	      console.log('Here is the Agave search result object!');              
+	      // JavaScript === and !== operators test value and type.
+	      if (search.obj.status !== 'success') {
+		  console.log('Search result status is NOT good!');
+		  return (false);
+	      }
+	      console.log('Here is the search result object!');              
 	      console.log(search);
           }
       );
-        
   });
-
+        
 })(window, jQuery);
