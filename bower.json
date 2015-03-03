@@ -2,6 +2,8 @@
   "name": "table-app-1",
   "private": true,
   "dependencies": {
-    "underscore": "~1.8.2"
+    "underscore": "~1.8.2",
+    "datatables": "~1.10.5",
+    "datatables-bootstrap3": "*"
   }
 }
