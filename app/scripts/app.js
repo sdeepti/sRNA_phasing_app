@@ -9,6 +9,22 @@
    */
   var appContext = $('[data-app-name="table-app-1"]');
 
+    var showSearchError = function(json) {
+	// Later, display an error to the user. For now, display an error on the developer console.
+        console.error('Search returned error! Status=' + json.obj.status + ' Message=' + json.obj.message);
+	console.log(json);
+    };
+
+    var showSearchResult1 = function(json) {
+	// JavaScript === and !== operators test value and type.
+	if (json.obj.status !== 'success') {
+	    console.log('Search result status is NOT good!');
+	    return (false);
+	}
+	console.log('Here is the search result object!');              
+	console.log(json);
+    };
+    
     /**
      * Create an anonymous function and register it to fire when AgaveAPI is ready. 
      * Our science app functionality belongs inside this function. 
@@ -68,22 +84,16 @@
       
       /**
        * Execute a search.
-       * Adama search parameters are: namespace, service, args, callback.
+       * Adama search parameters are: object, successCallback, failCallback.
+       * Adama search object elements are: namespace, service, args.
        * We provide an anonymous function as the callback.
        */
       Agave.api.adama.search(
           {'namespace': 'at_srna', 
 	   'service': 'at_srna_v0.1', 
 	   'queryParams': {'chr': 1, 'beg': 9000, 'end': 9400}},
-          function(search) {
-	      // JavaScript === and !== operators test value and type.
-	      if (search.obj.status !== 'success') {
-		  console.log('Search result status is NOT good!');
-		  return (false);
-	      }
-	      console.log('Here is the search result object!');              
-	      console.log(search);
-          }
+	  showSearchResult1,
+	  showSearchError
       );
   });
         
