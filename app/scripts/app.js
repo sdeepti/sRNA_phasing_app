@@ -19,7 +19,7 @@
 				'<tbody>'+
 				'<% _.each(result, function(r) { %>'+
 				'<tr>'+
-				'<td><%= r.sequence %></td>'+
+				'<td><pre><%= r.sequence %></pre></td>'+
 				'</tr>'+
 				'<% }) %>'+
 				'</tbody>'+
@@ -42,7 +42,9 @@
 	console.log('Writing search result object to screen.');   
 	console.log(json);
 	console.log(json.obj.result[0].sequence);
+	console.log(templates.resultTable(json.obj));
 	$('.main_results').empty();           
+	//$('.main_results', appContext).html('<h1>RESULTS!</h1>');
 	$('.main_results', appContext).html(templates.resultTable(json.obj));
 	//$('.main_results table', appContext).dataTable( {'lengthMenu': [5, 10, 25, 50, 100]} );
 	return (true);
@@ -57,7 +59,7 @@
       var htmlString;
 
       /**
-       * Use the jQuery .html() setter/getter function to CHANGE content. 
+       * Use the jQuery .html() setter/getter function to REPLACE content. 
        * Alter the HTML title to show we are running. 
        * Add a div to hold the interactive application content. 
        * Add a div to hold the provenance information. 
@@ -66,6 +68,7 @@
        */
       htmlString='<h2><em>Arabidopsis thaliana</em> small RNA</h2>'+
 	  '<div class="interactive"></div>'+
+	  '<div class="main_results"></div>'+
 	  '<hr><div class="provenance-info"></div><br>';
       appContext.html(htmlString);
       
