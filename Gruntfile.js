@@ -5,7 +5,7 @@ module.exports = function(grunt) {
   require('load-grunt-tasks')(grunt);
 
   var config = {
-    appName: 'table-app-1',
+    appName: 'sRNA_phasing_app',
     app: 'app',
     dist: 'dist'
   };

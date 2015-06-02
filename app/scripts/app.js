@@ -19,7 +19,7 @@
      * app.html is included by a div in index.html 
      */
     var appContext;
-    appContext = $('[data-app-name="table-app-1"]');
+    appContext = $('[data-app-name="sRNA_phasing_app"]');
 
     /**
      * The underscaore.js library supports templates for display tables.
@@ -89,7 +89,7 @@
 
       paramChr=1;     // sample values
       paramBeg=9000;
-      paramEnd=9400;
+      paramEnd=10000;
 
       /**
        * Use the jQuery .html() setter/getter function to REPLACE content. 
@@ -143,7 +143,7 @@
       Agave.api.adama.search(
           {'namespace': 'at_srna', 
 	   'service': 'at_srna_v0.1', 
-	   'queryParams': {'chr': 1, 'beg': 9000, 'end': 9400}},
+	   'queryParams': {'chr': 1, 'beg': 9000, 'end': 10000}},
 	  showSearchResult1,
 	  showSearchError
       );
