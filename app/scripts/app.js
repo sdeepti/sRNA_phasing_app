@@ -141,7 +141,7 @@
        * We provide an anonymous function as the callback.
        */
       Agave.api.adama.search(
-          {'namespace': 'at_srna', 
+          {'namespace': 'at_sRNA', 
 	   'service': 'at_srna_v0.1', 
 	   'queryParams': {'chr': 1, 'beg': 9000, 'end': 10000}},
 	  showSearchResult1,
